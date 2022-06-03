@@ -1,37 +1,19 @@
-// 1. Install dependencies DONE
-// 2. Import dependencies DONE
-// 3. Setup webcam and canvas DONE
-// 4. Define references to those DONE
-// 5. Load posenet DONE
-// 6. Detect function DONE
-// 7. Drawing utilities from tensorflow DONE
-// 8. Draw functions DONE
-
-// Face Mesh - https://github.com/tensorflow/tfjs-models/tree/master/facemesh
+// Face Mesh - https://github.com/tensorflow/tfjs-models/blob/master/face-landmarks-detection
 
 import React, { useRef, useEffect } from "react";
 import "./App.css";
-import * as tf from "@tensorflow/tfjs";
-// OLD MODEL
-//import * as facemesh from "@tensorflow-models/facemesh";
 
-// NEW MODEL
+import * as tf from "@tensorflow/tfjs";
 import * as faceLandmarksDetection from "@tensorflow-models/face-landmarks-detection";
+
 import Webcam from "react-webcam";
-import { drawMesh, drawResults } from "./utilities";
+import { drawResults } from "./utilities";
 
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  //  Load posenet
   const runFacemesh = async () => {
-    // OLD MODEL
-    // const net = await facemesh.load({
-    //   inputResolution: { width: 640, height: 480 },
-    //   scale: 0.8,
-    // });
-    // NEW MODEL
     const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh
     const detectorConfig = {
       runtime: 'tfjs',
@@ -62,14 +44,9 @@ function App() {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
-      // Make Detections
-      // OLD MODEL
-      //       const face = await net.estimateFaces(video);
-      // NEW MODEL
       const face = await net.estimateFaces(video);
       console.log(face);
 
-      
       // Get canvas context
       const ctx = canvasRef.current.getContext("2d");
       requestAnimationFrame(()=>{drawResults(ctx, face, true, true)});
