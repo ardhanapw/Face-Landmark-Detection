@@ -49,7 +49,7 @@ function App() {
 
       // Get canvas context
       const ctx = canvasRef.current.getContext("2d");
-      requestAnimationFrame(()=>{drawResults(ctx, face, true, true)});
+      requestAnimationFrame(()=>{drawResults(ctx, face, true)});
       
     }
   };
